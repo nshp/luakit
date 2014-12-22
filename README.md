@@ -12,7 +12,7 @@ luakit behaves similarly out of the box.
 ## Requirements
 
  * gtk2
- * Lua (5.1)
+ * Lua (5.2)
  * lfs (lua file system)
  * libwebkit (webkit-gtk)
  * libunique
@@ -23,10 +23,6 @@ luakit behaves similarly out of the box.
 To compile the stock luakit run:
 
     make
-
-To link against LuaJIT (if you have LuaJIT installed) run:
-
-    make USE_LUAJIT=1
 
 To build without libunique (which uses dbus) run:
 
@@ -43,7 +39,7 @@ Note to packagers: you may wish to build luakit with:
 To prevent luakit searching in relative paths (`./config` & `./lib`) for
 user configs.
 
-The `USE_LUAJIT=1`, `USE_UNIQUE=0`, `PREFIX=/path`, `DEVELOPMENT_PATHS=0`,
+The `USE_UNIQUE=0`, `PREFIX=/path`, `DEVELOPMENT_PATHS=0`,
 `CC=clang` build options do not conflict. You can use whichever you desire.
 
 ## Installing

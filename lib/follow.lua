@@ -248,7 +248,7 @@ follow_js = [=[
             hints = state.hints;
 
         var hint_re = hpat && new RegExp(hpat),
-            text_re = tpat && new RegExp(tpat),
+            text_re = tpat && new RegExp(tpat, "i"),
             matches = [], len = hints.length, j = 0, h;
 
         // Filter hints
