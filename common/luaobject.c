@@ -19,6 +19,7 @@
  *
  */
 
+#include "luah.h"
 #include "common/luaobject.h"
 
 /* Setup the object system at startup. */

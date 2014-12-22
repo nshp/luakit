@@ -36,10 +36,19 @@
         signal_object_emit(L, &globalconf.signals, "debug::deprecation", 1, 0); \
     } while(0)
 
+
+static inline int
+luaH_typerror(lua_State *L, int narg, const char *tname)
+{
+    const char *msg = lua_pushfstring(L, "%s expected, got %s",
+                                      tname, luaL_typename(L, narg));
+    return luaL_argerror(L, narg, msg);
+}
+
 static inline gboolean
 luaH_checkboolean(lua_State *L, gint n) {
     if(!lua_isboolean(L, n))
-        luaL_typerror(L, n, "boolean");
+        luaH_typerror(L, n, "boolean");
     return lua_toboolean(L, n);
 }
 
@@ -71,6 +80,24 @@ luaH_getopt_boolean(lua_State *L, gint idx, const gchar *name, gboolean def) {
     gboolean b = luaH_optboolean(L, -1, def);
     lua_pop(L, 1);
     return b;
+}
+
+static inline void
+luaH_registerlib(lua_State *L, const char *libname, const luaL_Reg *l)
+{
+#if LUA_VERSION_NUM >= 502
+    if (libname)
+    {
+        lua_newtable(L);
+        luaL_setfuncs(L, l, 0);
+        lua_pushvalue(L, -1);
+        lua_setglobal(L, libname);
+    }
+    else
+        luaL_setfuncs(L, l, 0);
+#else
+    luaL_register(L, libname, l);
+#endif
 }
 
 /* Register an Lua object.

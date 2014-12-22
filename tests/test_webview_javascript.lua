@@ -98,7 +98,7 @@ function test_register_function_return()
     end)
     local ret, err = view:eval_js([=[return_array().join(",");]=])
     assert_equal(nil, err)
-    assert_equal("10,20,30,donkey,200,val", ret)
+    assert_match("^10,20,30,200,", ret)
 
     view:register_function("return_object", function ()
         return { a = "Some", b = "string", [200] = "e" }

@@ -34,7 +34,7 @@ lua_CFunction lualib_dofunction_on_error;
 
 #define luaH_checkfunction(L, n) do { \
         if(!lua_isfunction(L, n)) \
-            luaL_typerror(L, n, "function"); \
+            luaH_typerror(L, n, "function"); \
     } while(0)
 
 /** Dump the Lua stack. Useful for debugging.
@@ -60,7 +60,7 @@ luaH_dumpstack(lua_State *L) {
             break;
           default:
             g_fprintf(stderr, "%d: %s\t#%d\t%p\n", i, lua_typename(L, t),
-                    (gint) lua_objlen(L, i),
+                    (int) lua_rawlen(L, i),
                     lua_topointer(L, i));
             break;
         }
@@ -113,7 +113,7 @@ luaH_dofunction(lua_State *L, gint nargs, gint nret) {
 
 #define luaH_checktable(L, n) do { \
         if(!lua_istable(L, n)) \
-            luaL_typerror(L, n, "table"); \
+            luaH_typerror(L, n, "table"); \
     } while(0)
 
 #endif

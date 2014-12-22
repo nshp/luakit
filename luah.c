@@ -228,6 +228,7 @@ luaH_abspath(lua_State *L)
 static void
 luaH_fixups(lua_State *L)
 {
+    lua_pushglobaltable(L);
     /* export string.wlen */
     lua_getglobal(L, "string");
     lua_pushcfunction(L, &luaH_utf8_strlen);
@@ -241,21 +242,21 @@ luaH_fixups(lua_State *L)
     /* replace next */
     lua_pushliteral(L, "next");
     lua_pushcfunction(L, luaHe_next);
-    lua_settable(L, LUA_GLOBALSINDEX);
+    lua_settable(L, -3);
     /* replace pairs */
     lua_pushliteral(L, "pairs");
     lua_pushcfunction(L, luaHe_next);
     lua_pushcclosure(L, luaHe_pairs, 1); /* pairs get next as upvalue */
-    lua_settable(L, LUA_GLOBALSINDEX);
+    lua_settable(L, -3);
     /* replace ipairs */
     lua_pushliteral(L, "ipairs");
     lua_pushcfunction(L, luaH_ipairs_aux);
     lua_pushcclosure(L, luaHe_ipairs, 1);
-    lua_settable(L, LUA_GLOBALSINDEX);
+    lua_settable(L, -3);
     /* replace type */
     lua_pushliteral(L, "type");
     lua_pushcfunction(L, luaHe_type);
-    lua_settable(L, LUA_GLOBALSINDEX);
+    lua_settable(L, -3);
 }
 
 static gint
@@ -335,12 +336,12 @@ luaH_init(void)
 
     /* add Lua search paths */
     lua_getglobal(L, "package");
-    if(LUA_TTABLE != lua_type(L, 1)) {
+    if(LUA_TTABLE != lua_type(L, -1)) {
         warn("package is not a table");
         return;
     }
-    lua_getfield(L, 1, "path");
-    if(LUA_TSTRING != lua_type(L, 2)) {
+    lua_getfield(L, -1, "path");
+    if(LUA_TSTRING != lua_type(L, -1)) {
         warn("package.path is not a string");
         lua_pop(L, 1);
         return;
@@ -386,10 +387,10 @@ luaH_init(void)
     g_ptr_array_free(paths, TRUE);
 
     /* package.path = "concatenated string" */
-    lua_setfield(L, 1, "path");
+    lua_setfield(L, -2, "path");
 
     /* remove package module from stack */
-    lua_pop(L, 1);
+    lua_pop(L, 2);
 }
 
 gboolean

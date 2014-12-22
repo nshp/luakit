@@ -40,7 +40,7 @@ void luaH_object_decref(lua_State *L, gint tud, gpointer oud);
 static inline gpointer
 luaH_object_ref_item(lua_State *L, gint ud, gint iud) {
     /* Get the env table from the object */
-    lua_getfenv(L, ud);
+    lua_getuservalue(L, ud);
     gpointer p = luaH_object_incref(L, -1, iud < 0 ? iud - 1 : iud);
     /* Remove env table */
     lua_pop(L, 1);
@@ -53,7 +53,7 @@ luaH_object_ref_item(lua_State *L, gint ud, gint iud) {
 static inline void
 luaH_object_unref_item(lua_State *L, gint ud, gpointer p) {
     /* Get the env table from the object */
-    lua_getfenv(L, ud);
+    lua_getuservalue(L, ud);
     /* Decrement */
     luaH_object_decref(L, -1, p);
     /* Remove env table */
@@ -67,7 +67,7 @@ luaH_object_unref_item(lua_State *L, gint ud, gpointer p) {
 static inline gint
 luaH_object_push_item(lua_State *L, gint ud, gpointer p) {
     /* Get env table of the object */
-    lua_getfenv(L, ud);
+    lua_getuservalue(L, ud);
     /* Push key */
     lua_pushlightuserdata(L, p);
     /* Get env.pointer */
@@ -155,7 +155,7 @@ gint luaH_object_property_signal(lua_State *, gint, luakit_token_t);
         lua_newtable(L);                                      \
         lua_newtable(L);                                      \
         lua_setmetatable(L, -2);                              \
-        lua_setfenv(L, -2);                                   \
+        lua_setuservalue(L, -2);                              \
         lua_pushvalue(L, -1);                                 \
         luaH_class_emit_signal(L, &(lua_class), "new", 1, 0); \
         return p;                                             \

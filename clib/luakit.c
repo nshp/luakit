@@ -369,7 +369,7 @@ luaH_luakit_spawn(lua_State *L)
         if (lua_isfunction(L, 2))
             cb_ref = luaH_object_ref(L, 2);
         else
-            luaL_typerror(L, 2, lua_typename(L, LUA_TFUNCTION));
+            luaH_typerror(L, 2, lua_typename(L, LUA_TFUNCTION));
     }
 
     /* parse arguments */
@@ -602,7 +602,7 @@ luaH_luakit_idle_remove(lua_State *L)
 void
 luakit_lib_setup(lua_State *L)
 {
-    static const struct luaL_reg luakit_lib[] =
+    static const struct luaL_Reg luakit_lib[] =
     {
         LUA_CLASS_METHODS(luakit)
         { "__index",         luaH_luakit_index },

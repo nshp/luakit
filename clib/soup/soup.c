@@ -171,7 +171,7 @@ luaH_soup_newindex(lua_State *L)
 void
 soup_lib_setup(lua_State *L)
 {
-    static const struct luaL_reg soup_lib[] =
+    static const struct luaL_Reg soup_lib[] =
     {
         LUA_CLASS_METHODS(soup)
         { "__index",       luaH_soup_index },

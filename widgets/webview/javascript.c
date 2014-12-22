@@ -149,7 +149,7 @@ luaJS_fromtable(lua_State *L, JSContextRef context, gint idx, gchar **error)
     JSValueRef exception = NULL;
     JSObjectRef obj;
 
-    size_t len = lua_objlen(L, idx);
+    size_t len = lua_rawlen(L, idx);
     if (len) {
         obj = JSObjectMakeArray(context, 0, NULL, &exception);
         if (exception) {

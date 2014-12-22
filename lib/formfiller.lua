@@ -7,7 +7,6 @@
 local lousy = require("lousy")
 local string, table, io = string, table, io
 local loadstring, pcall = loadstring, pcall
-local setfenv = setfenv
 local warn = warn
 local print, type = print, type
 local pairs, ipairs = pairs, ipairs
@@ -242,7 +241,7 @@ function init(w)
     for k, fun in pairs(DSL) do
         env[k] = function (...) return DSL[k](w.formfiller_state, ...) end
     end
-    setfenv(dsl, env)
+    _ENV = env
     local success, err = pcall(dsl)
     if not success then
         warn("error in " .. file .. ": " .. err)

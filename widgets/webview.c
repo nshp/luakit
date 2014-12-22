@@ -710,12 +710,12 @@ populate_popup_from_table(lua_State *L, GtkMenu *menu, widget_t *w)
     GtkWidget *item, *submenu;
     gpointer ref;
     const gchar *label;
-    gint i, len = lua_objlen(L, -1);
+    gint i, len = lua_rawlen(L, -1);
 
     /* walk table and build context menu */
     for(i = 1; i <= len; i++) {
         lua_rawgeti(L, -1, i);
-        if((lua_type(L, -1) == LUA_TTABLE) && (lua_objlen(L, -1) >= 2)) {
+        if((lua_type(L, -1) == LUA_TTABLE) && (lua_rawlen(L, -1) >= 2)) {
             lua_rawgeti(L, -1, 1);
             label = lua_tostring(L, -1);
             lua_pop(L, 1);

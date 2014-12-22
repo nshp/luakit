@@ -12,7 +12,7 @@ CPPFLAGS   += -DVERSION=\"$(VERSION)\"
 
 # === Paths ==================================================================
 
-PREFIX     ?= /usr/local
+PREFIX     ?= /usr
 MANPREFIX  ?= $(PREFIX)/share/man
 DOCDIR     ?= $(PREFIX)/share/luakit/docs
 

@@ -72,7 +72,7 @@ webview_set_history(lua_State *L, WebKitWebView *view, gint idx)
     /* get history items table */
     lua_pushliteral(L, "items");
     lua_rawget(L, idx);
-    bflen = lua_objlen(L, -1);
+    bflen = lua_rawlen(L, -1);
 
     /* create new back-forward history list */
     bflist = webkit_web_back_forward_list_new_with_web_view(view);
